@@ -39,12 +39,12 @@ export const transactionSchema = `#graphql
 
 	input updateTransactionInput {
 		transactionId: ID!
-		description: String
-		paymentType: String
-		category: String
-		amount: Float
-		date: String
-		location: String
+		description: String!
+		paymentType: String!
+		category: String!
+		amount: Float!
+		date: String!
+		location: String!
 	}
 
 `;

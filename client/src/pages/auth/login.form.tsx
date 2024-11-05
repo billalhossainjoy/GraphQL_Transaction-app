@@ -5,18 +5,35 @@ import { FormFieldType } from "@/constants";
 import CustomFormField from "@/components/common/FormField";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { Loader } from "lucide-react";
+import { useMutation } from "@apollo/client";
+import { LOGIN_MUTATION } from "@/graphql/user/user.resolver";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const LoginForm: React.FC = () => {
+  const [Login, { loading, error }] = useMutation(LOGIN_MUTATION, {
+    refetchQueries: ["AuthUser"],
+  });
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      username: "mdbillalhossainjoy",
+      password: "mdbillalhossainjoy",
     },
   });
 
-  const onSubmit = (data: LoginSchemaType) => {
-    console.log(data);
+  const onSubmit = async (LoginInput: LoginSchemaType) => {
+    try {
+      Login({ variables: { input: LoginInput } }).then(() =>
+        toast.success("Login Successfully.")
+      );
+
+      toast.success("Login Successfully.");
+    } catch (error) {
+      console.log(error);
+      toast.error("Login faild.");
+    }
   };
 
   return (
@@ -37,8 +54,9 @@ const LoginForm: React.FC = () => {
             control={form.control}
             fieldType={FormFieldType.PASSWORD}
           />
-
-          <Button className="w-full">Sign Up</Button>
+          <Button className="w-full">
+            {loading ? <Loader className="animate-spin" /> : "Login"}
+          </Button>
         </div>
       </Form>
     </form>

@@ -6,6 +6,8 @@ export const userSchema = `#graphql
 		profilePicture: String
 		gender: String!
 		transactions: [Transaction!]
+		refreshToken: String!
+		accessToken: String!
     }
 
 	type Query {

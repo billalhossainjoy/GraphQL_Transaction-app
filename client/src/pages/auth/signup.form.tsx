@@ -7,6 +7,11 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Form, FormControl } from "@/components/ui/form";
+import { useMutation } from "@apollo/client";
+import { SIGNUP_MUTATION } from "@/graphql/user/user.resolver";
+import { Loader } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const SignUpForm: React.FC = () => {
   const form = useForm<SignUpSchemaType>({
@@ -18,9 +23,23 @@ const SignUpForm: React.FC = () => {
       gender: "male",
     },
   });
+  const [signup, { loading, error }] = useMutation(SIGNUP_MUTATION, {
+    refetchQueries: ["AuthUser"],
+  });
 
-  const onSubmit = (data: SignUpSchemaType) => {
-    console.log(data);
+  const onSubmit = async (SignUpInput: SignUpSchemaType) => {
+    try {
+      signup({
+        variables: {
+          input: SignUpInput,
+        },
+      });
+
+      toast.success("Signup Successfully")
+    } catch (err) {
+      console.log(error);
+      toast.error("Signup Error.")
+    }
   };
 
   return (
@@ -75,7 +94,7 @@ const SignUpForm: React.FC = () => {
             )}
           />
 
-          <Button className="w-full">Sign Up</Button>
+          <Button className="w-full">{loading ? <Loader /> : "Sign Up"}</Button>
         </div>
       </Form>
     </form>

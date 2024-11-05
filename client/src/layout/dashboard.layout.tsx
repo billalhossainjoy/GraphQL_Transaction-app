@@ -4,7 +4,7 @@ import backgoundImage from "/background-image.jpg";
 const DashboardLayout: React.FC = () => {
   return (
     <div className="h-screen w-full">
-      <div className="w-full h-full blur-sm">
+      <div className="w-full h-full blur-lg opacity-70">
         <img
           src={backgoundImage}
           alt=""

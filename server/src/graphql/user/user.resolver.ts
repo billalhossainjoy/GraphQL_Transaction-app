@@ -33,7 +33,10 @@ export const userResolver = {
       res.header("access_token", accessToken);
       res.header("refresh_token", refreshToken);
 
-      return user;
+      res.cookie("access_token", accessToken);
+      res.cookie("refresh_token", refreshToken);
+
+      return Object.assign(user, { accessToken });
     },
     login: async (_: any, { input }: any, { req, res }: GraphqlContext) => {
       try {
@@ -46,16 +49,23 @@ export const userResolver = {
 
         res.header("access_token", accessToken);
         res.header("refresh_token", refreshToken);
-        return user;
+
+        res.cookie("access_token", accessToken);
+        res.cookie("refresh_token", refreshToken);
+
+        return Object.assign(user, { accessToken });
       } catch (error) {
         throw error;
       }
     },
 
-    logout: async (_: any, __: any, { User }: GraphqlContext) => {
+    logout: async (_: any, __: any, { User, res }: GraphqlContext) => {
       if (!User) throw new Error("Unauthorized user.");
 
       await UserModel.findByIdAndUpdate(User._id, { refreshToken: "" });
+
+      res.clearCookie("access_token");
+      res.clearCookie("refresh_token");
 
       return {
         message: "Logout successfully",

@@ -81,8 +81,6 @@ export const transactionResolver = {
     ) => {
       try {
         if (!User) throw new Error("Unauthorized User");
-
-        console.log(UpdateTransactionSchema.parse(input));
         const transaction = await TransactionService.updateTransaction(
           UpdateTransactionSchema.parse(input)
         );

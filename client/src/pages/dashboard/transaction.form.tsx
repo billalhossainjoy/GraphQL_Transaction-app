@@ -12,22 +12,59 @@ import {
   PaymentTypeOptions,
 } from "@/constants";
 import { Button } from "../../components/ui/button";
+import { useMutation } from "@apollo/client";
+import {
+  CREATE_TRANSACTION,
+  UPDATE_TRANSACTION,
+} from "@/graphql/transaction/transaction.resolver";
+import toast from "react-hot-toast";
+import { GET_TRANSACTIONS } from "@/graphql/transaction/transaction.queries";
+import { Loader } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-const TransactionForm: React.FC = () => {
+interface Props {
+  transaction?: Transaction;
+}
+
+const TransactionForm: React.FC<Props> = ({ transaction }) => {
+  const navigate = useNavigate();
+  const [createTransaction, { loading }] = useMutation(CREATE_TRANSACTION, {
+    refetchQueries: [GET_TRANSACTIONS],
+  });
+  const [updateTransaction] = useMutation(UPDATE_TRANSACTION, {
+    refetchQueries: [GET_TRANSACTIONS],
+  });
+
   const form = useForm<TransactionType>({
     resolver: zodResolver(TransactionSchema),
     defaultValues: {
-      description: "",
-      amount: 0,
-      paymentType: "cash",
-      category: "saving",
+      description: transaction?.description || "",
+      amount: transaction?.amount || 0,
+      paymentType: transaction?.paymentType || "cash",
+      category: transaction?.category || "saving",
       date: new Date(),
-      location: "",
+      location: transaction?.description || "",
     },
   });
 
-  const onSubmit = (data: TransactionType) => {
-    console.log(data);
+  const onSubmit = (input: TransactionType) => {
+    try {
+      if (!transaction) {
+        createTransaction({ variables: { input } });
+        form.reset();
+        toast.success("Transaction created successfully!");
+      } else {
+        console.log(input);
+        updateTransaction({
+          variables: { input: { transactionId: transaction.id, ...input } },
+        });
+        navigate('/dashboard')
+        toast.success("Transaction update successfully!");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Transaction create failed!");
+    }
   };
 
   return (
@@ -84,7 +121,23 @@ const TransactionForm: React.FC = () => {
               fieldType={FormFieldType.DATE}
             />
           </div>
-          <Button className="w-full">Add Transaction</Button>
+          {!transaction ? (
+            <Button className="w-full">
+              {loading ? (
+                <Loader className="animate-spin" />
+              ) : (
+                "Add Transaction"
+              )}
+            </Button>
+          ) : (
+            <Button className="w-full">
+              {loading ? (
+                <Loader className="animate-spin" />
+              ) : (
+                "Update Transaction"
+              )}
+            </Button>
+          )}
         </div>
       </Form>
     </form>
