@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import AuthRootLayout from "./layout/auth.layout";
 import AuthPage from "./pages/auth/page";
 import DashboardLayout from "./layout/dashboard.layout";
@@ -6,13 +6,11 @@ import DashboardPage from "./pages/dashboard/page";
 import { useQuery } from "@apollo/client";
 import { GET_AUTH_USER } from "./graphql/user/user.queries";
 import { Toaster } from "./../node_modules/react-hot-toast/src/components/toaster";
-import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import LogoutPage from "./pages/logout";
 
 const App: React.FC = () => {
-  const navigate = useNavigate();
-  const { loading, data, error } = useQuery(GET_AUTH_USER);
+  const { loading, data } = useQuery(GET_AUTH_USER);
 
   if (loading)
     return (
@@ -22,7 +20,6 @@ const App: React.FC = () => {
         </div>
       </div>
     );
-
   return (
     <>
       <Routes>
