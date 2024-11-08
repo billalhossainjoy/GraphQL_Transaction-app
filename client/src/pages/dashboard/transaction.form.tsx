@@ -18,7 +18,10 @@ import {
   UPDATE_TRANSACTION,
 } from "@/graphql/transaction/transaction.resolver";
 import toast from "react-hot-toast";
-import { GET_TRANSACTIONS } from "@/graphql/transaction/transaction.queries";
+import {
+  GET_TRANSACTIONS,
+  GET_TRANSCTION_STATISTICS,
+} from "@/graphql/transaction/transaction.queries";
 import { Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -29,11 +32,14 @@ interface Props {
 const TransactionForm: React.FC<Props> = ({ transaction }) => {
   const navigate = useNavigate();
   const [createTransaction, { loading }] = useMutation(CREATE_TRANSACTION, {
-    refetchQueries: [GET_TRANSACTIONS],
+    refetchQueries: [GET_TRANSACTIONS, GET_TRANSCTION_STATISTICS],
   });
-  const [updateTransaction] = useMutation(UPDATE_TRANSACTION, {
-    refetchQueries: [GET_TRANSACTIONS],
-  });
+  const [updateTransaction, { loading: updateLoading }] = useMutation(
+    UPDATE_TRANSACTION,
+    {
+      refetchQueries: [GET_TRANSACTIONS,GET_TRANSCTION_STATISTICS],
+    }
+  );
 
   const form = useForm<TransactionType>({
     resolver: zodResolver(TransactionSchema),
@@ -42,7 +48,7 @@ const TransactionForm: React.FC<Props> = ({ transaction }) => {
       amount: transaction?.amount || 0,
       paymentType: transaction?.paymentType || "cash",
       category: transaction?.category || "saving",
-      date: new Date(),
+      date: (transaction?.date && new Date(+transaction.date)) || new Date(),
       location: transaction?.description || "",
     },
   });
@@ -54,11 +60,10 @@ const TransactionForm: React.FC<Props> = ({ transaction }) => {
         form.reset();
         toast.success("Transaction created successfully!");
       } else {
-        console.log(input);
         updateTransaction({
           variables: { input: { transactionId: transaction.id, ...input } },
         });
-        navigate('/dashboard')
+        navigate("/dashboard");
         toast.success("Transaction update successfully!");
       }
     } catch (error) {
@@ -131,7 +136,7 @@ const TransactionForm: React.FC<Props> = ({ transaction }) => {
             </Button>
           ) : (
             <Button className="w-full">
-              {loading ? (
+              {updateLoading ? (
                 <Loader className="animate-spin" />
               ) : (
                 "Update Transaction"

@@ -1,3 +1,5 @@
+import { GET_TRANSCTION_STATISTICS } from "@/graphql/transaction/transaction.queries";
+import { useQuery } from "@apollo/client";
 import {
   ArcElement,
   ChartData,
@@ -5,6 +7,7 @@ import {
   Legend,
   Tooltip,
 } from "chart.js";
+import { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -15,12 +18,12 @@ interface Props {
 }
 
 const Chart: React.FC<Props> = ({ cutout = 100, borderRadius = 30 }) => {
-  const chartData: ChartData<"doughnut", number[], unknown> = {
+  const initialChartData: ChartData<"doughnut", number[], unknown> = {
     labels: ["Saving", "Expense", "Investment"],
     datasets: [
       {
         label: "%",
-        data: [13, 8, 3],
+        data: [10, 0, 0],
         backgroundColor: [
           "rgba(75, 192, 192)",
           "rgba(255, 99, 132)",
@@ -38,6 +41,29 @@ const Chart: React.FC<Props> = ({ cutout = 100, borderRadius = 30 }) => {
     ],
   };
 
-  return <Doughnut data={chartData} options={{ cutout }} />;
+  const [chart, setChart] = useState(initialChartData);
+  const { data } = useQuery(GET_TRANSCTION_STATISTICS);
+
+  useEffect(() => {
+    if (data?.categoryStatistics) {
+      const categores = data.categoryStatistics.map(
+        (state: CategoryStatistics) => state.category
+      );
+      const totalAmmounts = data.categoryStatistics.map(
+        (state: CategoryStatistics) => state.totalAmount
+      );
+      setChart((prev) => ({
+        labels: categores,
+        datasets: [
+          {
+            ...prev.datasets[0],
+            data: totalAmmounts,
+          },
+        ],
+      }));
+    }
+  }, [data]);
+
+  return <Doughnut data={chart} options={{ cutout }} />;
 };
 export default Chart;

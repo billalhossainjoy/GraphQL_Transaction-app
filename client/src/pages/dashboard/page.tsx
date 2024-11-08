@@ -1,7 +1,7 @@
 import TransactionForm from "@/pages/dashboard/transaction.form";
 import Chart from "./chart";
 import { Loader, LogOut } from "lucide-react";
-import {  useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { LOGOUT_MUTATION } from "@/graphql/user/user.resolver";
 import Transactions from "./transactions";
 
@@ -37,7 +37,7 @@ const DashboardPage: React.FC = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 max-w-6xl w-full m-auto">
-          <div className="p-5 w-8/12 m-auto">
+          <div className="p-5 m-auto w-[350px]">
             <Chart cutout={100} />
           </div>
           <div className="flex h-full items-center">

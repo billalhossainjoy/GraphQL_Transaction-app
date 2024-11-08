@@ -39,6 +39,25 @@ export const transactionResolver = {
     categoryStatistics: async (_: any, __: any, { User }: GraphqlContext) => {
       try {
         if (!User) throw new Error("UnauthorizedUser");
+        const transactions = await TransactionModel.find({ userId: User._id });
+        const categoryMap = {
+          saving: 0,
+          expense: 0,
+          investment: 0,
+        };
+
+        transactions.map((transaction) => {
+          categoryMap[
+            transaction.category as "saving" | "expense" | "investment"
+          ] += transaction.amount;
+        });
+
+
+
+        return Object.entries(categoryMap).map(([category, totalAmount]) => ({
+          category,
+          totalAmount,
+        }));
       } catch (error) {
         throw error;
       }

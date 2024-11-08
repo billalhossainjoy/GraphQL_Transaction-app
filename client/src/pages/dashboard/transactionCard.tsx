@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { GET_TRANSACTIONS } from "@/graphql/transaction/transaction.queries";
+import { GET_TRANSACTIONS, GET_TRANSCTION_STATISTICS } from "@/graphql/transaction/transaction.queries";
 import { DELETE_TRANSACTION } from "@/graphql/transaction/transaction.resolver";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@apollo/client";
@@ -14,7 +14,7 @@ interface Props {
 const TransactionCard: React.FC<Props> = ({ transaction }) => {
   const navigate = useNavigate();
   const [deleteTransaction, { loading }] = useMutation(DELETE_TRANSACTION, {
-    refetchQueries: [GET_TRANSACTIONS],
+    refetchQueries: [GET_TRANSACTIONS,GET_TRANSCTION_STATISTICS],
   });
   const date = new Date(+transaction.date);
   const deleteHandler = (id: string) => {

@@ -9,3 +9,9 @@ interface Transaction {
   date: string;
   __typename: string;
 }
+
+
+interface CategoryStatistics {
+  category: string;
+  totalAmount: number;
+}
