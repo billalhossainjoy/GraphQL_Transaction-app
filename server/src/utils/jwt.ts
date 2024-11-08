@@ -1,5 +1,6 @@
 import jwt, {
   DecodeOptions,
+  JsonWebTokenError,
   JwtPayload,
   Secret,
   SignOptions,
@@ -13,7 +14,7 @@ export const verifyToken = (
   try {
     return jwt.verify(token, secret, option) as JwtPayload;
   } catch (error) {
-    throw error;
+    throw JsonWebTokenError;
   }
 };
 

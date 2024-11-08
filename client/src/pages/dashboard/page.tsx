@@ -4,15 +4,19 @@ import { Loader, LogOut } from "lucide-react";
 import { useMutation } from "@apollo/client";
 import { LOGOUT_MUTATION } from "@/graphql/user/user.resolver";
 import Transactions from "./transactions";
+import { GET_AUTH_USER } from "@/graphql/user/user.queries";
+import { useNavigate } from "react-router-dom";
 
 const DashboardPage: React.FC = () => {
+  const navigate = useNavigate();
   const [Logout, { loading }] = useMutation(LOGOUT_MUTATION, {
-    refetchQueries: ["AuthUser"],
+    refetchQueries: [GET_AUTH_USER],
   });
 
   const logoutHandler = async () => {
     try {
-      Logout();
+      await Logout();
+      navigate("/logout-success");
     } catch (error) {
       console.log(error);
     }

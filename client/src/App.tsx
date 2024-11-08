@@ -8,6 +8,7 @@ import { GET_AUTH_USER } from "./graphql/user/user.queries";
 import { Toaster } from "./../node_modules/react-hot-toast/src/components/toaster";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
+import LogoutPage from "./pages/logout";
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -26,20 +27,22 @@ const App: React.FC = () => {
     <>
       <Routes>
         <Route
-          path="/"
+          path=""
           element={
             !data?.authUser ? <AuthRootLayout /> : <Navigate to="/dashboard" />
           }
         >
-          <Route index Component={AuthPage} />
+          <Route index element={<AuthPage />} />
         </Route>
         <Route
           path="/dashboard"
           element={data?.authUser ? <DashboardLayout /> : <Navigate to="/" />}
         >
-          <Route index Component={DashboardPage} />
+          <Route index element={<DashboardPage />} />
         </Route>
+        <Route path="/logout-success" element={<LogoutPage />} />
       </Routes>
+
       <Toaster />
     </>
   );
