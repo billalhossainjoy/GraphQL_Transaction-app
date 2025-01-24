@@ -10,7 +10,6 @@ import { Form, FormControl } from "@/components/ui/form";
 import { useMutation } from "@apollo/client";
 import { SIGNUP_MUTATION } from "@/graphql/user/user.resolver";
 import { Loader } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const SignUpForm: React.FC = () => {

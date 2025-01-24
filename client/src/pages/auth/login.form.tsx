@@ -8,11 +8,10 @@ import { Form } from "@/components/ui/form";
 import { Loader } from "lucide-react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_MUTATION } from "@/graphql/user/user.resolver";
-import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const LoginForm: React.FC = () => {
-  const [Login, { loading, error }] = useMutation(LOGIN_MUTATION, {
+  const [Login, { loading }] = useMutation(LOGIN_MUTATION, {
     refetchQueries: ["AuthUser"],
   });
   const form = useForm<LoginSchemaType>({

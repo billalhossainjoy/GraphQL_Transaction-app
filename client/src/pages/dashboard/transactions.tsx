@@ -1,7 +1,6 @@
 import { GET_TRANSACTIONS } from "@/graphql/transaction/transaction.queries";
 import { useQuery } from "@apollo/client";
 import TransactionCard from "./transactionCard";
-import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Loader } from "lucide-react";
 import TransactionForm from "./transaction.form";
 
 type GetTransaction = {
@@ -21,7 +19,7 @@ const Transactions: React.FC = () => {
   const navigate = useNavigate();
   const [updateDialoag, setUpdateDialoag] = useState(false);
   const [params] = useSearchParams();
-  const { data, loading, error } = useQuery<GetTransaction>(GET_TRANSACTIONS);
+  const { data } = useQuery<GetTransaction>(GET_TRANSACTIONS);
 
   useEffect(() => {
     if (params.get("updateTransaction")) {

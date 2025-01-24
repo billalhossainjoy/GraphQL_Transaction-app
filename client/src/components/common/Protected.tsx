@@ -3,7 +3,7 @@ interface Props {
   auth: boolean;
 }
 
-const Protected: React.FC<Props> = ({ children, auth }) => {
+const Protected: React.FC<Props> = ({ children }) => {
   return <>{children}</>;
 };
 export default Protected;
