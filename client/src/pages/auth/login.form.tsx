@@ -17,8 +17,8 @@ const LoginForm: React.FC = () => {
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      username: "mdbillalhossainjoy",
-      password: "mdbillalhossainjoy",
+      username: "default_user",
+      password: "default_user",
     },
   });
 
