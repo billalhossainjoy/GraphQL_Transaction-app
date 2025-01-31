@@ -2,6 +2,13 @@ import UserModel from "../../models/user.model";
 import UserService from "../../services/user.services";
 import { GraphqlContext } from "../../libs/CreateContext";
 import { GenerateAccessRefreshToken } from "../../libs/AccessRefreshToken";
+import { CookieOptions } from "express";
+
+const cookiesOption: CookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+};
 
 export const userResolver = {
   Query: {
@@ -33,8 +40,8 @@ export const userResolver = {
       res.header("access_token", accessToken);
       res.header("refresh_token", refreshToken);
 
-      res.cookie("access_token", accessToken);
-      res.cookie("refresh_token", refreshToken);
+      res.cookie("access_token", accessToken, cookiesOption);
+      res.cookie("refresh_token", refreshToken, cookiesOption);
 
       return Object.assign(user, { accessToken });
     },
@@ -50,8 +57,8 @@ export const userResolver = {
         res.header("access_token", accessToken);
         res.header("refresh_token", refreshToken);
 
-        res.cookie("access_token", accessToken);
-        res.cookie("refresh_token", refreshToken);
+        res.cookie("access_token", accessToken, cookiesOption);
+        res.cookie("refresh_token", refreshToken, cookiesOption);
 
         return Object.assign(user, { accessToken });
       } catch (error) {
