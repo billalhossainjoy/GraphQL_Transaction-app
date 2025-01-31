@@ -17,7 +17,7 @@ app.use(
   })
 );
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 connectMongo()
   .then(async () => {
@@ -29,10 +29,6 @@ connectMongo()
       })
     );
 
-    app.listen(AppConfig.PORT, () =>
-      console.log(
-        `Server is running on http://localhost:${AppConfig.PORT}/graphql`
-      )
-    );
+    app.listen(AppConfig.PORT);
   })
   .catch((err) => console.log(err));
