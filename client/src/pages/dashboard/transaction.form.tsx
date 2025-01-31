@@ -114,7 +114,7 @@ const TransactionForm: React.FC<Props> = ({ transaction }) => {
             <CustomFormField<TransactionType>
               name="location"
               label="Location"
-              placeholder="New York"
+              placeholder="Dhaka"
               control={form.control}
               fieldType={FormFieldType.INPUT}
             />
