@@ -1,4 +1,8 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
 export const AppConfig = {
-  PORT: 3000,
+  PORT: process.env.PORT || 3000,
   HOST: "localhost",
 };
