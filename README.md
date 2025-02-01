@@ -1,7 +1,7 @@
-<div>
+<div align="center">
   <div>
-    <h1 style="text-align: center">GraphQL Transaction app.</h1>
-    <div style="display: flex; justify-content: center">
+    <h1>GraphQL Transaction app.</h1>
+    <div>
       <img src="./README/images/typescript.svg" alt="" />
       <img src="./README/images/react.svg" alt="" />
       <img src="./README/images/tailwind.svg" alt="" />
