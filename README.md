@@ -7,10 +7,10 @@
       <img src="./README/images/tailwind.svg" alt="" />
       <img src="./README/images/mongodb.svg" alt="" />
     </div>
-    <h1 style="font-size: 14px; text-align: center; margin-top: 15px; margin-bottom:4px;">
+    <p style="font-size: 14px; text-align: center; margin-top: 15px; margin-bottom:4px;">
       Build a transaction app to handle transaction like Saving's, invest,
       expence's. Use MERN Stack with Graph-QL to build this application.
-    </h1>
+    </p>
   </div>
 
   <div>
