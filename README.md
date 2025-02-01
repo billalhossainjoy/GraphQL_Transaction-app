@@ -15,22 +15,22 @@
 
   <div>
 	<h1>Home Page</h1>
-    <img src="./README/screenshots/app.PNG" alt=""/>
+    <img src="./README/screenshots/app.png" alt=""/>
   </div>
   
   <div>
 	<h1>Update Section</h1>
-    <img src="./README/screenshots/update.PNG" alt=""/>
+    <img src="./README/screenshots/update.png" alt=""/>
   </div>
 
   <div>
 	<h1>Login</h1>
-    <img src="./README/screenshots/login.PNG" alt=""/>
+    <img src="./README/screenshots/login.png" alt=""/>
   </div>
 
   <div>
 	<h1>Signup</h1>
-    <img src="./README/screenshots/signup.PNG" alt=""/>
+    <img src="./README/screenshots/signup.png" alt=""/>
   </div>
 
   <div></div>
